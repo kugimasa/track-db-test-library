@@ -1,6 +1,47 @@
 # track-db-test-library
 Test library for Track database challenges
 
+## Usage - Test Runner
+
+```javascript
+const chai = require('chai');
+const { runner } = require('track-db-test-library');
+runner.use(chai);
+runner.run('testcases.yml');
+```
+
+```yaml
+installations:
+  - @init/db.sql
+  - @init/basic_XXX.csv into XXX
+  - delete from YYY;
+
+tests:
+  - title:
+      ja: '[Step 1] XXX'
+      en: '[Step 1] XXX'
+    arrange:
+      - in/public/step1_extended_dataset.csv
+    act:
+      - step1.sql
+      - plan: step1.sql
+    assert:
+      - out/public/step1.csv
+      - noFullscan: emploee
+  - title:
+      ja: '[Step 2] YYY'
+      en: '[Step 2] YYY'
+    act: step2.sql
+    assert:
+      columns: # <-> or without
+      	- empno
+      	- deptno
+      	- name
+      order-by:
+        - empno
+      equal-to: out/public/step2.csv
+```
+
 ## Usage
 
 ### `Connection` module
